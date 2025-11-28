@@ -13,7 +13,7 @@ address VARCHAR(255)
 create table Products(
 Product_id int auto_increment primary key,
 Product_name varchar(100) not null,
-price decimal(10,2),
+price decimal(10,2) CHECK (price > 0), 
 category varchar(50)
 );
 create table Orders(
@@ -22,7 +22,7 @@ customer_id int,
 foreign key(customer_id) references Customers(customer_id),
 Product_id int,
 foreign key(Product_id) references Products(Product_id),
-quantity INT,
+quantity INT CHECK (quantity > 0),
 order_date DATE
 );
 -- Câu 2: Thêm dữ liệu (10 điểm)
