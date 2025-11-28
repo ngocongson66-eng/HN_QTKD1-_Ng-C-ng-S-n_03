@@ -96,4 +96,39 @@ select c.customer_name,c.email,c.phone,c.address
 from Customers c
 where c.customer_name like '%Dung%';
 -- Lấy ra 5 đơn hàng được đặt gần đây nhất
+SELECT * FROM Orders
+ORDER BY order_date DESC
+LIMIT 5;
+-- Lấy tên khách hàng, tên sản phẩm, số lượng, ngày đặt
+SELECT c.customer_name, p.product_name, o.quantity, o.order_date
+FROM Orders o
+JOIN Customers c ON o.customer_id = c.customer_id
+JOIN Products p ON o.product_id = p.product_id;
 
+-- Tên sản phẩm và giá mà Nguyen Van An đã đặt
+SELECT p.product_name, p.price
+FROM Orders o
+JOIN Products p ON o.product_id = p.product_id
+JOIN Customers c ON o.customer_id = c.customer_id
+WHERE c.customer_name = 'Nguyen Van An';
+
+-- Tên khách hàng và tổng tiền đơn hàng
+SELECT c.customer_name,
+       (o.quantity * p.price) AS TotalAmount
+FROM Orders o
+JOIN Customers c ON o.customer_id = c.customer_id
+JOIN Products p ON o.product_id = p.product_id;
+
+-- Sản phẩm chưa có ai mua
+SELECT *
+FROM Products
+WHERE product_id NOT IN (SELECT product_id FROM Orders);
+-- Thống kê số lượng khách hàng theo từng tỉnh/thành
+SELECT address, COUNT(*) AS SoLuongKhach
+FROM Customers
+GROUP BY address;
+
+-- Thống kê số lượng sản phẩm theo từng danh mục
+SELECT category, COUNT(*) AS SoLuongSanPham
+FROM Products
+GROUP BY category;
